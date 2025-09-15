@@ -1,2 +1,2 @@
-# C-_VM
+# C++_VM
 C++で作成したMinecraftCPU用のVM
