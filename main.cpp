@@ -1,19 +1,24 @@
-#include <iostream>  // 標準入出力
-#include <iomanip>   // 出力フォーマット操作
-#include <sstream>   // 文字列ストリーム
-#include <string>    // std::string
-#include <array>     // 固定長配列
-#include <vector>    // 可変長配列
-#include <bitset>    // ビット操作
-#include <tuple>     // 複数の型をまとめる
-#include <map>       // 連想配列
-#include <cstdint>   // 固定幅整数
-#include <algorithm> // sort, find など
-#include <stdexcept> // 標準例外
-#include <chrono>    // 時間管理
-#include <thread>    // マルチスレッド
-#include <cstring>   // メモリ操作
+#include <iostream>   // 標準入出力
+#include <iomanip>    // 出力フォーマット操作
+#include <sstream>    // 文字列ストリーム
+#include <string>     // std::string
+
+#include <array>      // 固定長配列
+#include <vector>     // 可変長配列
+#include <map>        // 連想配列
+
+#include <tuple>      // 複数の型をまとめる
 #include <functional> // std::function
+#include <stdexcept>  // 標準例外
+
+#include <algorithm>  // sort, find など
+
+#include <bitset>     // ビット操作
+#include <cstdint>    // 固定幅整数
+#include <cstring>    // メモリ操作
+
+#include <chrono>     // 時間管理
+#include <thread>     // マルチスレッド
 
 using instruction_word = uint32_t;
 
