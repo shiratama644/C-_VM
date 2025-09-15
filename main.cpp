@@ -5,7 +5,6 @@
 #include <array>     // 固定長配列
 #include <vector>    // 可変長配列
 #include <bitset>    // ビット操作
-#include <bit>       // ビット
 #include <tuple>     // 複数の型をまとめる
 #include <map>       // 連想配列
 #include <cstdint>   // 固定幅整数
