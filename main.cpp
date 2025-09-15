@@ -2,21 +2,16 @@
 #include <iomanip>    // 出力フォーマット操作
 #include <sstream>    // 文字列ストリーム
 #include <string>     // std::string
-
 #include <array>      // 固定長配列
 #include <vector>     // 可変長配列
 #include <map>        // 連想配列
-
 #include <tuple>      // 複数の型をまとめる
 #include <functional> // std::function
 #include <stdexcept>  // 標準例外
-
 #include <algorithm>  // sort, find など
-
 #include <bitset>     // ビット操作
 #include <cstdint>    // 固定幅整数
 #include <cstring>    // メモリ操作
-
 #include <chrono>     // 時間管理
 #include <thread>     // マルチスレッド
 
@@ -61,38 +56,6 @@ namespace Flags {
 
 // アセンブリをマシンコードに変換するクラス
 class Assembler {
-public:
-    // コンストラクタ
-    Assembler() {
-        initializeInstructionSet();
-        initializeConditionAliases();
-        initializeSpecialRegisters();
-    }
-
-    // アセンブル実行
-    bool assemble(const std::string& source) {
-        labels.clear();
-        machineCode.clear();
-        errors.clear();
-
-        std::vector<std::string> lines;
-        std::istringstream stream(source);
-        std::string line;
-        while (std::getline(stream, line)) {
-            lines.push_back(line);
-        }
-
-        firstPass(lines);
-        if (errors.empty()) {
-            secondPass(lines);
-        }
-
-        return errors.empty();
-    }
-
-    const std::vector<instruction_word>& getMachineCode() const { return machineCode; }
-    const std::vector<std::string>& getErrors() const { return errors; }
-
 private:
     // 命令フォーマット
     enum class Format {
@@ -407,6 +370,38 @@ private:
             throw std::runtime_error("Special register number '" + token + "' is out of the valid range (0-3).");
         }
     }
+ 
+public:
+    // コンストラクタ
+    Assembler() {
+        initializeInstructionSet();
+        initializeConditionAliases();
+        initializeSpecialRegisters();
+    }
+
+    // アセンブル実行
+    bool assemble(const std::string& source) {
+        labels.clear();
+        machineCode.clear();
+        errors.clear();
+
+        std::vector<std::string> lines;
+        std::istringstream stream(source);
+        std::string line;
+        while (std::getline(stream, line)) {
+            lines.push_back(line);
+        }
+
+        firstPass(lines);
+        if (errors.empty()) {
+            secondPass(lines);
+        }
+
+        return errors.empty();
+    }
+
+    const std::vector<instruction_word>& getMachineCode() const { return machineCode; }
+    const std::vector<std::string>& getErrors() const { return errors; }
 };
 
 // ALU クラス
@@ -619,7 +614,7 @@ public:
         std::cout << "--- Registe Dump (" << regs.size() << " bytes, showing " << start << "-" << end - 1 << ") ---" << std::endl;
         for (size_t i = start; i < end; ++i) {
             // この範囲表示では省略ロジックは不要
-            std::cout << "Addr[" << std::setw(3) << i << "]: " << std::setw(3) << std::setfill(' ')  << +regs[i] 
+            std::cout << "Addr[" << std::right << std::setw(3) << i << "]: " << std::setw(3) << std::setfill(' ')  << +regs[i] 
                       << " (0x" << std::hex << std::setw(2)  << std::setfill('0') << +regs[i] << std::dec << ")" << std::endl;
         }
         std::cout << "---------------------------------" << std::endl;
@@ -662,6 +657,7 @@ public:
             // スタックオーバーフロー: 操作を無視
             return;
         }
+        std::this_thread::sleep_for(std::chrono::duration<double>(write_delay));
         stack_data[sp] = val;
         sp++;
     }
@@ -672,6 +668,7 @@ public:
             // スタックアンダーフロー: 0を返し、ポインタは動かさない
             return 0;
         }
+        std::this_thread::sleep_for(std::chrono::duration<double>(read_delay));
         sp--;
         uint8_t val = stack_data[sp]; // SPが指す場所から値を取得
         stack_data[sp] = 0;           // ポップした場所を0でクリア
@@ -724,7 +721,7 @@ public:
         
         for (size_t i = start; i < end; ++i) {
             // 表示本体
-            std::cout << "Addr[" << std::setw(3) << i << "]: " 
+            std::cout << "Addr[" << std::right << std::setw(3) << i << "]: " 
                       << std::setw(3) << std::setfill(' ') << +stack_data[i] 
                       << " (0x" << std::hex << std::setw(2) << std::setfill('0') << +stack_data[i] << std::dec << ")";
 
